@@ -1,0 +1,12 @@
+
+standAgni.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+tank_bulletFly6
+  rotate: false
+  xy: 1, 1
+  size: 78, 20
+  orig: 78, 20
+  offset: 0, 0
+  index: -1

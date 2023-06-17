@@ -1,0 +1,87 @@
+package Sprites;
+
+import Screens.WarScreen;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.game.MyGdxGame;
+
+import java.io.Serializable;
+
+public class Tank2 extends Sprite implements Serializable,TankInterface {
+    public World world;
+    public Body b2body;
+    private TextureRegion mariostand;
+    public Fixture fixture;
+    public int power=100;
+    public boolean setToDestroy=false;
+    public boolean destroyed=false;
+    public float stateTimer=0;
+    public BodyDef bdef;
+
+    public Tank2(World world, WarScreen screen, String name1){
+        super(screen.getAtlas().findRegion(name1));
+        this.world=world;
+        defineTank();
+        int x=1;
+        int y=442;
+        if (name1=="tanks_tankGreen3"){
+            x=1;
+            y=371;
+        }
+        else if (name1=="tanks_tankGrey3"){
+            x=95;
+            y=442;
+        }
+        else if (name1=="tanks_tankDesert3"){
+            x=1;
+            y=442;
+        }
+        mariostand = new TextureRegion(getTexture(),1,442,92,69);
+        mariostand.flip(true,false);
+        //setBounds(88,440,86/MyGdxGame.PPM,68/MyGdxGame.PPM);
+        setRegion(mariostand);
+    }
+    public void update(float dt){
+        if (setToDestroy && !destroyed){
+            world.destroyBody(b2body);
+            destroyed=true;
+            stateTimer=0;
+            //set new region
+        }
+        else if (!destroyed) {
+            setPosition((b2body.getPosition().x)*MyGdxGame.PPM-getWidth()/2,(b2body.getPosition().y)*MyGdxGame.PPM-getHeight()/2);
+        }
+    }
+    public  void  defineTank(){
+        bdef = new BodyDef();
+        bdef.position.set(1100/ MyGdxGame.PPM,500/MyGdxGame.PPM);
+        bdef.type=BodyDef.BodyType.DynamicBody;
+        b2body = world.createBody(bdef);
+        FixtureDef fdef = new FixtureDef();
+        CircleShape shape = new CircleShape();
+        shape.setRadius(10/MyGdxGame.PPM);
+        fdef.filter.categoryBits=MyGdxGame.MARIO2_BIT;
+        fdef.filter.maskBits=MyGdxGame.DEFAULT_BIT | MyGdxGame.MARIO1_BIT | MyGdxGame.AGNI_BIT;
+        fdef.shape=shape;
+        fdef.friction=1.4f;
+        fixture=b2body.createFixture(fdef);
+        //b2body.setUserData("P2");
+        fdef.isSensor=true;
+        fixture.setUserData(this);
+        setSize(37,27);
+    }
+    public void draw(Batch batch){
+        if (!destroyed || stateTimer<1){
+            super.draw(batch);
+        }
+
+    }
+    public void onHeadHit(){
+        Gdx.app.log("P2 col","col p2");
+        power-=1;
+        //setToDestroy=true;
+    }
+}
