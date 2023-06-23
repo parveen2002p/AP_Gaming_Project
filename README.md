@@ -4,10 +4,21 @@ I have developed an engaging graphical user interface (GUI) game that features a
 Run DesktopLauncher.java as main file. (inside desktop->src)
 
 Refer to gameplay video.
+
 Game Controls:
+
 Spacebar: to shoot
-Left Shift + up Arrow :
-Left Shift + Down Arrow :
-Right Shift + up Arrow :
-Right Shift + Down Arrow :
+
+Left Shift + up Arrow : Power increase
+
+Left Shift + Down Arrow : Power decrease
+
+Right Shift + up Arrow :  Angle increase
+
+Right Shift + Down Arrow : Angle decrease
+
+Both Players are allowed to shoot one by one.
+
+Press Enter On Results Screen to continue.
+
 
